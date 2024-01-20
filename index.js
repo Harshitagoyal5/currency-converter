@@ -34,7 +34,6 @@ let updateExchangeRate=async ()=>{
     let response=await fetch(url);
     let data= await response.json();
     let rate=data[toCurr.value.toLowerCase()];
-    console.log(printResult(amt.value,rate));
     printResult(amt.value,rate); 
 }
 
@@ -58,6 +57,7 @@ for(let select of dropdown){
 }
 
 const updateFlag=(element)=>{
+    console.log(element);
     let currCode=element.value;
     let countryCode=countryList[currCode];
     let newSrc=`https://flagsapi.com/${countryCode}/shiny/64.png`;
@@ -68,6 +68,25 @@ const updateFlag=(element)=>{
 btn.addEventListener("click",(evt)=>{
     evt.preventDefault();
     updateExchangeRate();
+});
+
+
+//if exchange icon is clicked
+icon.addEventListener("click",()=>{
+    let temp=fromCurr.value;
+    fromCurr.value=toCurr.value;
+    toCurr.value=temp;
+
+    let left=fromCurr.parentElement.querySelector("img");
+    left.src=`https://flagsapi.com/${countryList[fromCurr.value]}/shiny/64.png`;
+
+    let right=toCurr.parentElement.querySelector("img");
+    right.src=`https://flagsapi.com/${countryList[toCurr.value]}/shiny/64.png`;
+
+    updateExchangeRate();
+    console.log(fromCurr);
+    console.log(toCurr);
+    
 });
 
 
